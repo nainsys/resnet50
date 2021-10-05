@@ -175,12 +175,12 @@ def train_model(model, criterion, optimizer, num_epochs=3):
 
 * 모델을 학습합니다. 시간이 좀 걸립니다.
 ~~~python
-torch.save(model_trained.state_dict(), './pweights.h5')
+model_trained = train_model(model, criterion, optimizer, num_epochs=3)
 ~~~
 
 * 학습이 완료된 모델을 저장 합니다.
 ~~~python
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.save(model_trained.state_dict(), './pweights.h5')
 ~~~
 
 * 모델을 다시 만듭니다. 이번에는 학습을 하지 않고 저장된 weight 만 load 할 것이기 때문에 pretrained를 False 로 설정합니다.
