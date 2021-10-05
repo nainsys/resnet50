@@ -104,10 +104,92 @@ data_transforms = {
 }
 ~~~
 
-* DataLoader를 사용하여 이미지들을 읽습니다.
+* DataLoader를 사용하여 이미지들을 읽습니다. 물론 해당 경로에 1000 여장의 사진들이 각각 있어야 합니다.
+~~~python
+image_datasets = {
+    'train': datasets.ImageFolder(input_path + 'train', data_transforms['train']),
+    'validation': datasets.ImageFolder(input_path + 'validation', data_transforms['validation'])
+}
+dataloaders = {
+    'train': torch.utils.data.DataLoader(image_datasets['train'],
+                                batch_size=32,
+                                shuffle=True,
+                                num_workers=0),  # for Kaggle
+    'validation': torch.utils.data.DataLoader(image_datasets['validation'],
+                                batch_size=32,
+                                shuffle=False,
+                                num_workers=0)  # for Kaggle
+}
+~~~
+
+* 손실 함수는 CrossEntropyLoss, 옵티마이저는 Adam 을 사용 하도록 설정 합니다.
+~~~python
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.fc.parameters())
+~~~
+
+* 이미지를 학습하는 함수를 작성합니다. 일반적인 pyTorch 학습 코드와 동일합니다.
+~~~python
+def train_model(model, criterion, optimizer, num_epochs=3):
+    for epoch in range(num_epochs):
+        print('Epoch {}/{}'.format(epoch+1, num_epochs))
+        print('-' * 10)
+
+        for phase in ['train', 'validation']:
+            if phase == 'train':
+                model.train()
+            else:
+                model.eval()
+
+            running_loss = 0.0
+            running_corrects = 0
+
+            for inputs, labels in dataloaders[phase]:
+                inputs = inputs.to(device)
+                labels = labels.to(device)
+
+                outputs = model(inputs)
+                loss = criterion(outputs, labels)
+
+                if phase == 'train':
+                    optimizer.zero_grad()
+                    loss.backward()
+                    optimizer.step()
+
+                _, preds = torch.max(outputs, 1)
+                running_loss += loss.item() * inputs.size(0)
+                running_corrects += torch.sum(preds == labels.data)
+
+            epoch_loss = running_loss / len(image_datasets[phase])
+            epoch_acc = running_corrects.double() / len(image_datasets[phase])
+
+            print('{} loss: {:.4f}, acc: {:.4f}'.format(phase,
+                                                        epoch_loss,
+                                                        epoch_acc))
+    return model
+~~~
+
+* 모델을 학습합니다. 시간이 좀 걸립니다.
+~~~python
+torch.save(model_trained.state_dict(), './pweights.h5')
+~~~
+
+* 학습이 완료된 모델을 저장 합니다.
 ~~~python
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ~~~
+
+* 모델을 다시 만듭니다. 이번에는 학습을 하지 않고 저장된 weight 만 load 할 것이기 때문에 pretrained를 False 로 설정합니다.
+그후 위에서 학습한 weight 값을 읽어 모델을 준비 합니다.
+~~~python
+model = models.resnet50(pretrained=False).to(device)
+model.fc = nn.Sequential(
+               nn.Linear(2048, 128),
+               nn.ReLU(inplace=True),
+               nn.Linear(128, 5)).to(device)
+model.load_state_dict(torch.load('./pweights.h5'))
+~~~
+
 
 * 테스트 이미지를 학습된 모델로 분류 해봅니다.
 아주 잘 작동합니다.
