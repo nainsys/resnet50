@@ -11,7 +11,8 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 이제 RESNET 구조를 사용하여 전이학습으로 2022년 대선 후보들의 얼굴을 인식/분류하는 학습을 테스트해 보겠습니다.
 
 일단 대선후보들의  멤버들의 사진을 모아야 합니다. 웹크롤러는 깃허브 오픈소스 프로젝트인 AutoCrawler를 사용했습니다.
-( https://github.com/YoongiKim/AutoCrawler 참고하세요) ( https://www.opensourceagenda.com/projects/autocrawler )
+( https://github.com/YoongiKim/AutoCrawler ) 참고하세요
+( https://www.opensourceagenda.com/projects/autocrawler )
 
 먼저 
 1. 다음 링크 파이썬 소스를 다운로드한다 https://github.com/YoongiKim/AutoCrawler 
