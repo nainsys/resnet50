@@ -78,10 +78,10 @@ model.fc = nn.Sequential(
 ~~~
 
 * 크롤링한 대선 후보 사진들을 Resnet 의 입력에 적합하도록 transform 하는 함수를 만듭니다. Resnet 의 이비지 싸이즈는 224*224 입니다.
-    ** transforms.RandomAffine(degrees) - 랜덤으로 affine 변형을 한다.
-    ** transforms.RandomHorizontalFlip() - 이미지를 랜덤으로 수평으로 뒤집는다.
-    ** transforms.ToTensor() - 이미지 데이터를 tensor로 바꿔준다.
-    ** transforms.Normalize(mean, std, inplace=False) - 이미지를 정규화한다.
+    - transforms.RandomAffine(degrees) - 랜덤으로 affine 변형을 한다.
+    - transforms.RandomHorizontalFlip() - 이미지를 랜덤으로 수평으로 뒤집는다.
+    - transforms.ToTensor() - 이미지 데이터를 tensor로 바꿔준다.
+    - transforms.Normalize(mean, std, inplace=False) - 이미지를 정규화한다.
 ~~~python
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
