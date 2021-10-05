@@ -190,6 +190,47 @@ model.fc = nn.Sequential(
 model.load_state_dict(torch.load('./pweights.h5'))
 ~~~
 
+* 테스트할 이미지를 준비합니다.
+~~~python
+validation_img_paths = ["test/google_0002.jpg",
+                        "test/google_0012.jpg",
+                        "test/google_0013.jpg",
+                        "test/google_0040.jpg",
+                        "test/google_0017.jpg",
+                        "test/naver_0050.jpg",
+                       ]
+img_list = [Image.open(input_path + img_path) for img_path in validation_img_paths]
+~~~
+
+* 이미지를 Resnet50에 적합한 입력으로 만들기 위해 transform 합니다..
+~~~python
+validation_batch = torch.stack([data_transforms['validation'](img).to(device) for img in img_list])
+~~~
+
+* 학습된 모델로 테스트 이미지를 예측합니다. 예측된 결과는 Softmax 를 사용하여 어떤 이미지로 분류 되는지 확률을 보여 줍니다.
+~~~python
+pred_logits_tensor = model(validation_batch)
+pred_probs = F.softmax(pred_logits_tensor, dim=1).cpu().data.numpy()
+~~~
+
+* matplotlib 에서 한글이 깨지는 것을 방지하기 위한 처리를 합니다.
+~~~python
+from matplotlib import font_manager, rc
+font_path = "C:/Windows/Fonts/NGULIM.TTF"
+font = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font)
+~~~
+
+* 테스트 사진이 어떤 사람의 사진인지 화면에 출력 해 봅니다. argmax 함수를 통해 가장 확률이 높은 사람의 인덱스를 구해서 헤당 이미지와 이름을 출력합니다.
+~~~python
+labels = ['윤석열','이낙연','이재명','추미애','홍준표']
+fig, axs = plt.subplots(1, len(img_list), figsize=(20, 5))
+for i, img in enumerate(img_list):
+    ax = axs[i]
+    ax.axis('off')
+    ax.set_title(labels[np.argmax(pred_probs[i])])
+    ax.imshow(img)
+~~~
 
 * 테스트 이미지를 학습된 모델로 분류 해봅니다.
 아주 잘 작동합니다.
