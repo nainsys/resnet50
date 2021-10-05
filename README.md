@@ -20,7 +20,10 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 3. 터미널 창에서 python main.py 를 실행한다.
 4. 자동으로 크롬이 실행되며 selenium 으로 이미지를 폴더별로 다운로드 합니다.
 5. 프로그램이 종료 할때 까지 기다리시면 됩니다.
-  
+
+![Keyword](./img/keyword.png)
+![download](./img/crawresult.png)
+
 
 1000개 이상의 많은 이미지가 다운로드 되었습니다. 
 학습의 정확도를 위해 여러 명이 나온 사진들과 같은 부적합한 이미지들을 삭제해 줍니다.
