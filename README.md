@@ -42,7 +42,7 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 * 먼저 여러가지 라이브러리를 import 합니다.
 특히 torchvision의 models 를 import 하여 resnet50 모델을 사용할수 있도록 해야 합니다.
 
-~~~
+~~~python
 import torch
 from torchvision import datasets, models, transforms
 import torch.nn as nn
@@ -52,6 +52,6 @@ import torch.optim as optim
 
 
 
-테스트 이미지를 학습된 모델로 분류 해봅니다.
+* 테스트 이미지를 학습된 모델로 분류 해봅니다.
 아주 잘 작동합니다.
 ![result](./img/result.png)
