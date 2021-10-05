@@ -39,3 +39,6 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 아래 쏘스는 다음 싸이트를 참고 했습니다.   ( https://www.kaggle.com/pmigdal/transfer-learning-with-resnet-50-in-pytorch )
 
 
+테스트 이미지를 학습된 모델로 분류 해봅니다.
+아주 잘 작동합니다.
+![result](./img/result.png)
