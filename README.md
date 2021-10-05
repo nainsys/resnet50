@@ -81,7 +81,7 @@ model.fc = nn.Sequential(
                nn.Linear(128, 5)).to(device)
 ~~~
 
-* 크롤링한 대선 후보 사진들을 Resnet 의 입력에 적합하도록 transform 하는 함수를 만듭니다. Resnet 의 이비지 싸이즈는 224*224 입니다.
+* 크롤링한 대선 후보 사진들을 Resnet 의 입력에 적합하도록 transform 하는 함수를 만듭니다. Resnet 의 이미지 싸이즈는 224*224 입니다.
     - transforms.RandomAffine(degrees) - 랜덤으로 affine 변형을 한다.
     - transforms.RandomHorizontalFlip() - 이미지를 랜덤으로 수평으로 뒤집는다.
     - transforms.ToTensor() - 이미지 데이터를 tensor로 바꿔준다.
