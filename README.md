@@ -39,7 +39,9 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 아래 쏘스는 다음 싸이트를 참고 했습니다.   ( https://www.kaggle.com/pmigdal/transfer-learning-with-resnet-50-in-pytorch )
 
 
-먼저 여러가지 라이브러리를 import 합니다.
+* 먼저 여러가지 라이브러리를 import 합니다.
+특히 torchvision의 models 를 import 하여 resnet50 모델을 사용할수 있도록 해야 합니다.
+
 ~~~
 import torch
 from torchvision import datasets, models, transforms
