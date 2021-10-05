@@ -39,10 +39,14 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 아래 쏘스는 다음 싸이트를 참고 했습니다.   ( https://www.kaggle.com/pmigdal/transfer-learning-with-resnet-50-in-pytorch )
 
 
-* 먼저 여러가지 라이브러리를 import 합니다.
+* 먼저 pytorch 딥러닝 학습에 필요한 여러가지 라이브러리를 import 합니다.
 특히 torchvision의 models 를 import 하여 resnet50 모델을 사용할수 있도록 해야 합니다.
 
 ~~~python
+import numpy as np
+%matplotlib inline
+import matplotlib.pyplot as plt
+from PIL import Image
 import torch
 from torchvision import datasets, models, transforms
 import torch.nn as nn
@@ -50,7 +54,60 @@ from torch.nn import functional as F
 import torch.optim as optim
 ~~~
 
+* GPU가 있으면 GPU로 학습 하도록 설정 합니다.
+~~~python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+~~~
 
+* resnet50 모델을 가져 옵니다. pretrained는 ImageNet 으로 사전 학습된 모델을 가져 올지를 결정하는 파라메터 입니다.
+우리는 True 를 설정합니다.
+
+또한 미리 학습된 모델로 finetuning 하는 것이므로 requires_grad = False 로 설정 해 주어야 학습이 안되도록 고정시킬 수 있다.
+불러온 모델의 마지막 fc (fully connected) layer 를 수정하여 fc layer를 원하는 layer로 변경한다.
+우리는 출력이 5명으로 분류하는 모델을 만들 것이므로 nn.Linear(128, 5) 를 사용한다.
+~~~python
+model = models.resnet50(pretrained=True).to(device)
+    
+for param in model.parameters():
+    param.requires_grad = False   
+    
+model.fc = nn.Sequential(
+               nn.Linear(2048, 128),
+               nn.ReLU(inplace=True),
+               nn.Linear(128, 5)).to(device)
+~~~
+
+* 크롤링한 대선 후보 사진들을 Resnet 의 입력에 적합하도록 transform 하는 함수를 만듭니다. Resnet 의 이비지 싸이즈는 224*224 입니다.
+    ** transforms.RandomAffine(degrees) - 랜덤으로 affine 변형을 한다.
+    ** transforms.RandomHorizontalFlip() - 이미지를 랜덤으로 수평으로 뒤집는다.
+    ** transforms.ToTensor() - 이미지 데이터를 tensor로 바꿔준다.
+    ** transforms.Normalize(mean, std, inplace=False) - 이미지를 정규화한다.
+~~~python
+normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+
+data_transforms = {
+    'train':
+    transforms.Compose([
+        transforms.Resize((224,224)),
+        transforms.RandomAffine(0, shear=10, scale=(0.8,1.2)),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        normalize
+    ]),
+    'validation':
+    transforms.Compose([
+        transforms.Resize((224,224)),
+        transforms.ToTensor(),
+        normalize
+    ]),
+}
+~~~
+
+* DataLoader를 사용하여 이미지들을 읽습니다.
+~~~python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+~~~
 
 * 테스트 이미지를 학습된 모델로 분류 해봅니다.
 아주 잘 작동합니다.
