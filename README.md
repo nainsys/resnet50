@@ -40,13 +40,13 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 
 
 먼저 여러가지 라이브러리를 import 합니다.
-'''
+~~~
 import torch
 from torchvision import datasets, models, transforms
 import torch.nn as nn
 from torch.nn import functional as F
 import torch.optim as optim
-'''
+~~~
 
 
 
