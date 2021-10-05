@@ -10,6 +10,9 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 
 이제 RESNET 구조를 사용하여 전이학습으로 2022년 대선 후보들의 얼굴을 인식/분류하는 학습을 테스트해 보겠습니다.
 
+
+##  대선후보 얼굴 사진 크롤링
+
 일단 대선후보들의  멤버들의 사진을 모아야 합니다. 웹크롤러는 깃허브 오픈소스 프로젝트인 AutoCrawler를 사용했습니다.
 ( https://github.com/YoongiKim/AutoCrawler ) 참고하세요
 ( https://www.opensourceagenda.com/projects/autocrawler )
@@ -29,5 +32,10 @@ ResNet의 original 논문명은 "Deep Residual Learning for Image Recognition"�
 학습의 정확도를 위해 여러 명이 나온 사진들과 같은 부적합한 이미지들을 삭제해 줍니다.
 대선 후보 사진들을 크롤링해서 모으는 것보다 부적합한 사진들을 지우는데 더 오랜 시간이 걸렸습니다. 역시 양질의 데이터가 중요합니다.
 
+
+## RESNET 을 이용한 이미지 분류 전이학습 및 테스트
+
 이제는 pyTorch에서 RESNET을 사용해서 전이학습하는 소스를 만들어 봅니다.
 아래 쏘스는 다음 싸이트를 참고 했습니다.   ( https://www.kaggle.com/pmigdal/transfer-learning-with-resnet-50-in-pytorch )
+
+
