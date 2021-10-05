@@ -225,6 +225,7 @@ font = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font)
 ~~~
 
+* 학습된 모델의 평가를 합니다.
 * 테스트 사진이 어떤 사람의 사진인지 화면에 출력 해 봅니다. argmax 함수를 통해 가장 확률이 높은 사람의 인덱스를 구해서 해당 이미지와 이름을 출력합니다.
 ~~~python
 labels = ['윤석열','이낙연','이재명','추미애','홍준표']
@@ -236,6 +237,5 @@ for i, img in enumerate(img_list):
     ax.imshow(img)
 ~~~
 
-* 테스트 이미지를 학습된 모델로 분류 해봅니다.
-아주 잘 작동합니다.
+* 테스트 이미지 6장을 학습된 Resnet 모델로 분류한 결과입니다. 아주 잘 작동합니다.
 ![result](./img/result.png)
