@@ -221,7 +221,7 @@ font = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font)
 ~~~
 
-* 테스트 사진이 어떤 사람의 사진인지 화면에 출력 해 봅니다. argmax 함수를 통해 가장 확률이 높은 사람의 인덱스를 구해서 헤당 이미지와 이름을 출력합니다.
+* 테스트 사진이 어떤 사람의 사진인지 화면에 출력 해 봅니다. argmax 함수를 통해 가장 확률이 높은 사람의 인덱스를 구해서 해당 이미지와 이름을 출력합니다.
 ~~~python
 labels = ['윤석열','이낙연','이재명','추미애','홍준표']
 fig, axs = plt.subplots(1, len(img_list), figsize=(20, 5))
